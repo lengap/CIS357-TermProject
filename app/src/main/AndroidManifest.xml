@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CIS357TermProject">
         <activity
+            android:name=".StoreActivity"
+            android:exported="false"
+            android:label="@string/title_activity_store"
+            android:theme="@style/Theme.CIS357TermProject.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
