@@ -14,7 +14,11 @@ public class MainScreenManager : MonoBehaviour
 	[SerializeField]
 	Text clicksText;
 	
+	[SerializeField]
+	GameObject coin;
+	
 	int numClicks;
+	float randomFloat;
 	
     // Start is called before the first frame update
     void Start()
@@ -28,10 +32,12 @@ public class MainScreenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		randomFloat = Random.Range(-2f, 2f);
         clicksText.text = numClicks + " bits";
     }
 	
 	public void Click() {
 		numClicks++;
+		Instantiate(coin, new Vector3(randomFloat, 4, 0), Quaternion.identity);
 	}
 }
