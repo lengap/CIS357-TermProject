@@ -23,6 +23,8 @@ public class MainScreenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		QualitySettings.vSyncCount = 0;
+		Application.targetFrameRate = 240;
 		numClicks = 0;
         MainPanel.gameObject.SetActive(true);
 		ToolsPanel.gameObject.SetActive(true);
