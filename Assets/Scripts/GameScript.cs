@@ -13,10 +13,13 @@ public class GameScript : MonoBehaviour
 	
 	[SerializeField]
 	Transform StorePanel;
-	
+
 	//[SerializeField]
 	//Transform SettingsPanel;
-	
+
+	[SerializeField]
+	Transform ChallengesPanel;
+
 	[SerializeField]
 	Text clicksText;
 	
@@ -55,7 +58,7 @@ public class GameScript : MonoBehaviour
     {
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 240;
-		numClicks = 0;
+		numClicks = 5000;
 		numClicksMult = 1;
 		
 		
@@ -67,7 +70,14 @@ public class GameScript : MonoBehaviour
 		cpuCost = 500;
 		gpuQty = 0;
 		gpuCost = 1000;
-		
+
+		ramCostText.text = "Cost: " + getRAMCost() + " bits";
+		gpuCostText.text = "Cost: " + getGPUCost() + " bits";
+		cpuCostText.text = "Cost: " + getCPUCost() + " bits";
+
+
+
+		ChallengesPanel.gameObject.SetActive(false);
         MainPanel.gameObject.SetActive(true);
 		ToolsPanel.gameObject.SetActive(true);
 		//SettingsPanel.gameObject.SetActive(false);
@@ -80,17 +90,16 @@ public class GameScript : MonoBehaviour
     {
 		randomFloat = Random.Range(-2f, 2f);
         clicksText.text = ((int)numClicks) + " bits";
-		ramQtyText.text = "Qty: " + getRAMQty();
-		ramCostText.text = "Cost: " + getRAMCost() + " bits";
-		
-		cpuQtyText.text = "Qty: " + getCPUQty();
-		cpuCostText.text = "Cost: " + getCPUCost() + " bits";
-		
-		gpuQtyText.text = "Qty: " + getGPUQty();
-		gpuCostText.text = "Cost: " + getGPUCost() + " bits";
-		
-		if(getCPUQty() > 0) {
-			numClicks += 0.01f * Mathf.Pow(10, getGPUQty());
+
+		if (getNumClicks() > 1000){ // temporary number, will in reality be much higher
+			//change picture next to the achievement from black to a trophy
+        }
+
+		if ()
+
+
+		if (getCPUQty() != 0) {
+			numClicks += 0.01f * ((5* Mathf.Pow(1.8f, getCPUQty())) * Mathf.Pow(2, getGPUQty()));
 		}
     }
 	
@@ -102,12 +111,21 @@ public class GameScript : MonoBehaviour
 	}
 	void incRAMQty () {
 		ramQty++;
+		setRamCost((int)(ramCost * (1.7 * Mathf.Pow(1.04f, getRAMQty()))));
+		ramQtyText.text = "Qty: " + getRAMQty();
+		ramCostText.text = "Cost: " + getRAMCost() + " bits";
 	}
 	void incGPUQty () {
 		gpuQty++;
+		setGPUCost((int)(gpuCost * (2 * Mathf.Pow(1.12f, getGPUQty()))));
+		gpuQtyText.text = "Qty: " + getGPUQty();
+		gpuCostText.text = "Cost: " + getGPUCost() + " bits";
 	}
 	void incCPUQty () {
 		cpuQty++;
+		setCPUCost((int)(cpuCost * (2 * Mathf.Pow(1.09f, getCPUQty()))));
+		cpuQtyText.text = "Qty: " + getCPUQty();
+		cpuCostText.text = "Cost: " + getCPUCost() + " bits";
 	}
 	void setRamCost(int val) {
 		ramCost = val;
@@ -152,10 +170,25 @@ public class GameScript : MonoBehaviour
 	public void SettingsClicked() {
 		
 	}
+
+	public void ChallengesClicked() {
+		if (currPanel != "challenges") {
+			MainPanel.gameObject.SetActive(false);
+			StorePanel.gameObject.SetActive(false);
+			ChallengesPanel.gameObject.SetActive(true);
+			currPanel = "challenges";
+        }
+		else {
+			ChallengesPanel.gameObject.SetActive(false);
+			MainPanel.gameObject.SetActive(true);
+			currPanel = "main";
+        }
+    }
 	
 	public void StoreClicked() {
 		if (currPanel != "store"){
 			MainPanel.gameObject.SetActive(false);
+			ChallengesPanel.gameObject.SetActive(false);
 			StorePanel.gameObject.SetActive(true);
 			currPanel = "store";
 		}
@@ -172,7 +205,7 @@ public class GameScript : MonoBehaviour
 			setNumClicks(numClicks - (float)ramCost);
 			setNumClicksMult(numClicksMult * 2);
 			incRAMQty();
-			setRamCost(ramCost * 10);
+			
 		}
 	}
 	
@@ -180,7 +213,6 @@ public class GameScript : MonoBehaviour
 		if (numClicks >= cpuCost) {
 			setNumClicks(numClicks - (float)cpuCost);
 			incCPUQty();
-			setCPUCost(cpuCost * 1000);
 		}
 	}
 	
@@ -188,7 +220,7 @@ public class GameScript : MonoBehaviour
 		if ((numClicks >= gpuCost) && getCPUQty() > 0) {
 			setNumClicks(numClicks - (float)gpuCost);
 			incGPUQty();
-			setGPUCost(gpuCost * 100);
+			
 		}
 	}
 }
