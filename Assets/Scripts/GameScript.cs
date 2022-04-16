@@ -95,7 +95,7 @@ public class GameScript : MonoBehaviour
 			//change picture next to the achievement from black to a trophy
         }
 
-		if ()
+		//if (){}
 
 
 		if (getCPUQty() != 0) {
