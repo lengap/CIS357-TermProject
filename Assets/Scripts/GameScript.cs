@@ -14,8 +14,8 @@ public class GameScript : MonoBehaviour
 	[SerializeField]
 	Transform StorePanel;
 
-	//[SerializeField]
-	//Transform SettingsPanel;
+	[SerializeField]
+	Transform SettingsPanel;
 
 	[SerializeField]
 	Transform ChallengesPanel;
@@ -80,7 +80,7 @@ public class GameScript : MonoBehaviour
 		ChallengesPanel.gameObject.SetActive(false);
         MainPanel.gameObject.SetActive(true);
 		ToolsPanel.gameObject.SetActive(true);
-		//SettingsPanel.gameObject.SetActive(false);
+		SettingsPanel.gameObject.SetActive(false);
 		StorePanel.gameObject.SetActive(false);
 		
     }
@@ -136,6 +136,33 @@ public class GameScript : MonoBehaviour
 	void setGPUCost(int val) {
 		gpuCost = val;
 	}
+	void setRAMQty (int val) {
+		ramQty = 0;
+		setRamCost(100);
+		while (getRAMQty() < val){
+			incRAMQty();
+		}
+		ramQtyText.text = "Qty: " + getRAMQty();
+		ramCostText.text = "Cost: " + getRAMCost() + " bits";
+	}
+	void setGPUQty(int val) {
+		gpuQty = 0;
+		setGPUCost(1000);
+		while (getGPUQty() < val){
+			incGPUQty();
+		}
+		gpuQtyText.text = "Qty: " + getGPUQty();
+		gpuCostText.text = "Cost: " + getGPUCost() + " bits";
+	}
+	void setCPUQty(int val){
+		cpuQty = 0;
+		setCPUCost(500);
+		while (getCPUQty() < val){
+			incCPUQty();
+		}
+		cpuQtyText.text = "Qty: " + getCPUQty();
+		cpuCostText.text = "Cost: " + getCPUCost() + " bits";
+	}
 	
 	float getNumClicks() {
 		return numClicks;
@@ -168,13 +195,25 @@ public class GameScript : MonoBehaviour
 	}
 	
 	public void SettingsClicked() {
-		
+		if (currPanel != "settings") {
+			MainPanel.gameObject.SetActive(false);
+			StorePanel.gameObject.SetActive(false);
+			ChallengesPanel.gameObject.SetActive(false);
+			SettingsPanel.gameObject.SetActive(true);
+			currPanel = "settings";
+		}
+		else{
+			SettingsPanel.gameObject.SetActive(false);
+			MainPanel.gameObject.SetActive(true);
+			currPanel = "main";
+		}
 	}
 
 	public void ChallengesClicked() {
 		if (currPanel != "challenges") {
 			MainPanel.gameObject.SetActive(false);
 			StorePanel.gameObject.SetActive(false);
+			SettingsPanel.gameObject.SetActive(false);
 			ChallengesPanel.gameObject.SetActive(true);
 			currPanel = "challenges";
         }
@@ -189,6 +228,7 @@ public class GameScript : MonoBehaviour
 		if (currPanel != "store"){
 			MainPanel.gameObject.SetActive(false);
 			ChallengesPanel.gameObject.SetActive(false);
+			SettingsPanel.gameObject.SetActive(false);
 			StorePanel.gameObject.SetActive(true);
 			currPanel = "store";
 		}
@@ -222,5 +262,21 @@ public class GameScript : MonoBehaviour
 			incGPUQty();
 			
 		}
+	}
+
+	public void ResetAllData(){
+		ResetNumClicks();
+		ResetStore();
+	}
+
+	public void ResetNumClicks(){
+		setNumClicks(0);
+	}
+
+	public void ResetStore(){
+		setNumClicksMult(1);
+		setRAMQty(0);
+		setCPUQty(0);
+		setGPUQty(0);
 	}
 }
