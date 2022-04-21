@@ -21,6 +21,21 @@ public class GameScript : MonoBehaviour
 	Transform ChallengesPanel;
 
 	[SerializeField]
+	Sprite trophySprite;
+
+	[SerializeField]
+	Image TotalBitsImage;
+
+	[SerializeField]
+	Image RAMLevelImage;
+
+	[SerializeField]
+	Image CPULevelImage;
+
+	[SerializeField]
+	Image GPULevelImage;
+
+	[SerializeField]
 	Text clicksText;
 	
 	[SerializeField]
@@ -91,11 +106,21 @@ public class GameScript : MonoBehaviour
 		randomFloat = Random.Range(-2f, 2f);
         clicksText.text = ((int)numClicks) + " bits";
 
-		if (getNumClicks() > 1000){ // temporary number, will in reality be much higher
-			//change picture next to the achievement from black to a trophy
+		if (getNumClicks() >= 10000){ // temporary number, will in reality be much higher
+			TotalBitsImage.sprite = trophySprite;
         }
 
-		//if (){}
+		if (getCPUQty() >= 5){
+			CPULevelImage.sprite = trophySprite;
+		}
+
+		if (getGPUQty() >= 5) {
+			GPULevelImage.sprite = trophySprite;
+        }
+
+		if (getRAMQty() >= 5){
+			RAMLevelImage.sprite = trophySprite;
+		}
 
 
 		if (getCPUQty() != 0) {
