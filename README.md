@@ -1,4 +1,5 @@
 # CIS357-TermProject
+### Patrick Lenga, Kit Bazner, Ryley Rawlings
 
 ## Tutorial
 https://docs.google.com/document/d/1MxYZNUH-Jj6CrtZnpztSks3leBtOFYQt8NDu1fENcB8/edit?usp=sharing
